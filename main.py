@@ -68,3 +68,20 @@ if __name__ == "__main__" :
     
     asyncio.get_event_loop().run_until_complete(main())
     LOGGER.info(f"<---Bot Stopped-->")
+
+import os
+from flask import Flask
+from threading import Thread
+
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return "Bot is running!"
+
+def run_web():
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
+
+# Flask को अलग thread में चलाएँ
+Thread(target=run_web).start()
